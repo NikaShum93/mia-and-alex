@@ -1,12 +1,177 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Alex and Mia: their love is in your hands</title>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Alex and Mia: their love is in your hands</title>
+<style>
+  :root{
+    --bg1:#fef7ff; --bg2:#f2f8ff; --ink:#3a2f4f; --muted:#6d5e89;
+    --line:#e9dcff; --card:#ffffffd9; --accent:#ff8fb1; --accent2:#ffd6ea;
+  }
+  html,body{height:100%}
+  body{
+    margin:0; color:var(--ink);
+    font-family: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    background:
+      radial-gradient(1100px 650px at -10% -10%, var(--bg2), transparent 60%),
+      radial-gradient(1100px 650px at 110% 10%, var(--bg1), transparent 60%),
+      linear-gradient(180deg, var(--bg1), var(--bg2));
+    background-attachment: fixed;
+  }
+  header{
+    max-width:1100px; margin:18px auto 8px; padding:18px 20px;
+    background:linear-gradient(180deg,#fff,#fff9);
+    border:2px solid var(--line); border-radius:22px;
+    box-shadow:0 10px 30px rgba(120,90,140,.12);
+  }
+  h1{margin:0; font-size:28px; letter-spacing:.2px;
+     background:linear-gradient(90deg,#ff72a6,#8a7cff); -webkit-background-clip:text; color:transparent; font-weight:900;}
+  .sub{margin:6px 0 12px; color:var(--muted)}
+  .controls{display:flex; gap:10px; flex-wrap:wrap; align-items:center}
+  .pill{display:inline-flex; align-items:center; gap:8px; padding:6px 10px; border-radius:999px;
+        background:linear-gradient(180deg,#fff,#fff6); border:1.5px solid var(--line)}
+  .btn{
+    appearance:none; border:2px solid var(--accent2); background:linear-gradient(180deg,#fff,#ffeef6);
+    border-radius:14px; padding:9px 14px; font-weight:700; color:#6c4f79; cursor:pointer;
+    box-shadow:0 6px 15px rgba(230,160,200,.18);
+  }
+  .btn:hover{transform:translateY(-1px)}
+  input[type="file"]{display:none}
+  .range{width:160px}
+
+  /* Sticky Love Meter */
+  .meter{position:sticky; top:10px; z-index:5; max-width:1100px; margin:8px auto; padding:12px; border-radius:18px;
+         background:linear-gradient(180deg,#fff,#fff9); border:1.5px solid var(--line);
+         box-shadow:0 8px 24px rgba(120,90,140,.10)}
+  .bar{position:relative; height:22px; border-radius:999px; background:#efe6ff; border:1px solid #d9c8ff; overflow:hidden}
+  .fill{position:absolute; inset:0 auto 0 0; width:0%;
+        background:linear-gradient(90deg,#ffc6dc,#ff95c6 40%,#ffc6dc);
+        mask: radial-gradient(6px 6px at 12px 50%, #000 98%, transparent) repeat-x; mask-size: 40px 100%}
+  .heart{position:absolute; top:50%; transform:translate(-50%,-50%); width:28px; height:28px;
+         filter: drop-shadow(0 4px 6px rgba(255,105,180,.35))}
+  .legend{display:flex; justify-content:space-between; font-size:12px; color:var(--muted); margin-top:6px}
+  .live{margin-top:10px; padding:10px; border-radius:12px; background:#fff; border:1.5px solid var(--line)}
+
+  main{max-width:1100px; margin:10px auto 120px; padding:0 12px}
+  section.card{
+    background:linear-gradient(180deg,#fff,#fff9); border:1.5px solid var(--line); border-radius:20px;
+    padding:16px; margin:18px 0; box-shadow:0 10px 30px rgba(120,90,140,.10)
+  }
+
+  /* Tooltip popup */
+  .tooltip{position:fixed; z-index:20; max-width:320px; background:#fff; border:2px solid var(--line);
+           border-radius:14px; padding:10px 12px; box-shadow:0 8px 24px rgba(120,90,140,.12); display:none}
+  .tooltip h4{margin:0 0 6px; font-size:14px}
+  .tooltip p, .tooltip ul{margin:6px 0; font-size:13px; color:var(--muted)}
+</style>
 </head>
 <body>
+
+<header>
   <h1>Alex and Mia: their love is in your hands</h1>
-  <p>Demo HTML page placeholder.</p>
+  <p class="sub">A2+ • romantic anime vibe • complete tasks to earn Love Points 💖</p>
+  <div class="controls">
+    <label class="pill">Upload background <input id="bgFile" type="file" accept="image/*"></label>
+    <div class="pill">🎵 Lo-fi <button class="btn" id="bgToggle">On/Off</button>
+      <input id="bgVol" type="range" class="range" min="0" max="1" step="0.05" value="0.35">
+    </div>
+    <button class="btn" id="checkBtn">Check Answers</button>
+  </div>
+</header>
+
+<!-- Sticky Love Meter -->
+<div class="meter" role="status" aria-live="polite">
+  <div class="bar">
+    <div class="fill" id="fill"></div>
+    <svg class="heart" id="heart" viewBox="0 0 24 24" aria-hidden="true">
+      <path d="M12 21s-6.7-4.5-9.5-7.8C-.4 10.3 1 6.5 4.1 5.4c2.1-.8 4.4.1 5.6 1.9 1.2-1.8 3.5-2.7 5.6-1.9 3.1 1.1 4.5 4.9 1.6 7.8C18.7 16.5 12 21 12 21z" fill="#ff6fa6" stroke="#ff2a80" stroke-width="1"/>
+    </svg>
+  </div>
+  <div class="legend"><span>0%</span><span>Progress: <b id="progressText">0 / 0</b></span><span>100%</span></div>
+  <div class="live" id="live">Answer to move the heart ✨</div>
+</div>
+
+<main>
+  <!-- здесь дальше будем добавлять блоки заданий по частям -->
+  <section class="card">
+    <h2 style="margin:0">Welcome!</h2>
+    <p>We’ll add vocabulary blocks step by step. The Love Meter stays on top; music is controllable and loops softly.</p>
+  </section>
+</main>
+
+<!-- Audio elements -->
+<audio id="bgMusic" loop>
+  <source src="assets/audio/bg-lofi.mp3" type="audio/mpeg">
+</audio>
+<audio id="clickSfx">
+  <source src="assets/audio/click.mp3" type="audio/mpeg">
+</audio>
+
+<!-- (общее окно для тултипов — наполним в следующих частях) -->
+<div class="tooltip" id="tooltip"></div>
+
+<script>
+/* Background upload */
+const bgFile = document.getElementById('bgFile');
+bgFile?.addEventListener('change', e => {
+  const f = e.target.files?.[0]; if(!f) return;
+  const url = URL.createObjectURL(f);
+  document.body.style.backgroundImage =
+    `url('${url}'), radial-gradient(1100px 650px at -10% -10%, var(--bg2), transparent 60%), radial-gradient(1100px 650px at 110% 10%, var(--bg1), transparent 60%), linear-gradient(180deg, var(--bg1), var(--bg2))`;
+  document.body.style.backgroundSize = 'cover, auto, auto, auto';
+});
+
+/* Click SFX */
+const clickAudio = document.getElementById('clickSfx');
+document.addEventListener('click', e => {
+  if(e.target.closest('button')) { try { clickAudio.currentTime = 0; clickAudio.play(); } catch{} }
+});
+
+/* BG music + gentle ducking hooks (listening добавим позже) */
+const bg = document.getElementById('bgMusic');
+const bgToggle = document.getElementById('bgToggle');
+const bgVol = document.getElementById('bgVol');
+let userMuted = false;
+bg.volume = parseFloat(bgVol.value || 0.35);
+
+// автозапуск после первого клика (политики браузеров)
+document.addEventListener('click', function once() {
+  bg.play().catch(()=>{});
+  document.removeEventListener('click', once);
+}, {once:true});
+
+bgToggle.addEventListener('click', () => {
+  if(bg.paused){ bg.play(); userMuted=false; } else { bg.pause(); userMuted=true; }
+});
+bgVol.addEventListener('input', ()=>{ bg.volume = parseFloat(bgVol.value); });
+
+/* Love Meter helpers (обновим счётчики, когда добавим задания) */
+function updateProgress(answered=0,total=0){
+  const pct = total? Math.min(100, Math.round((answered/total)*100)) : 0;
+  document.getElementById('fill').style.width = pct+'%';
+  const bar = document.querySelector('.bar').getBoundingClientRect();
+  const heart = document.getElementById('heart');
+  heart.style.left = (pct/100*bar.width)+'px';
+  document.getElementById('progressText').textContent = answered + ' / ' + total;
+  document.getElementById('live').textContent = pct<100 ? 'Keep going — the heart is moving…' : 'Full progress — time to check!';
+}
+updateProgress(0,0);
+
+/* Простая система тултипов (переиспользуем окно #tooltip) */
+function showTip(html, anchor){
+  const tip = document.getElementById('tooltip');
+  tip.innerHTML = html;
+  const r = anchor.getBoundingClientRect();
+  tip.style.display = 'block';
+  tip.style.left = (r.left + window.scrollX) + 'px';
+  tip.style.top = (r.bottom + window.scrollY + 6) + 'px';
+}
+document.addEventListener('click', (e)=>{
+  const t = e.target;
+  if(t.matches('[data-tip]')){ showTip(t.dataset.tip, t); }
+  else if(!t.closest('#tooltip')){ document.getElementById('tooltip').style.display='none'; }
+});
+</script>
 </body>
 </html>
