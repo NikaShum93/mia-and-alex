@@ -8,17 +8,93 @@
   :root{
     --bg1:#fef7ff; --bg2:#f2f8ff; --ink:#3a2f4f; --muted:#6d5e89;
     --line:#e9dcff; --card:#ffffffd9; --accent:#ff8fb1; --accent2:#ffd6ea;
+    --ok:#61c49a; --bad:#ff7a93;
   }
   html,body{height:100%}
   body{
     margin:0; color:var(--ink);
-    font-family: "Inter", ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+    font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
     background:
       radial-gradient(1100px 650px at -10% -10%, var(--bg2), transparent 60%),
       radial-gradient(1100px 650px at 110% 10%, var(--bg1), transparent 60%),
       linear-gradient(180deg, var(--bg1), var(--bg2));
     background-attachment: fixed;
+    overflow-x:hidden;
   }
+
+  /* === Anime CGI Sky background with animated stars & sparkles (no images) === */
+  #sky-bg{
+    position:fixed; inset:0; z-index:-1;
+    background:
+      radial-gradient(1200px 800px at 20% 15%, #ffe9f5 0%, transparent 60%),
+      radial-gradient(1000px 700px at 80% 20%, #e9f1ff 0%, transparent 60%),
+      linear-gradient(180deg, #ffe9f5 0%, #ffd8ec 20%, #e9f0ff 70%, #dff2ff 100%);
+    filter: saturate(1.04) contrast(1.02);
+    overflow:hidden;
+  }
+  #sky-bg .clouds, #sky-bg .clouds::before, #sky-bg .clouds::after{
+    position:absolute; inset:0;
+    background:
+      radial-gradient(closest-side at 15% 30%, rgba(255,255,255,.75), rgba(255,255,255,0) 70%) 0% 20% / 42% 30% no-repeat,
+      radial-gradient(closest-side at 70% 25%, rgba(255,255,255,.7), rgba(255,255,255,0) 70%) 45% 15% / 50% 32% no-repeat,
+      radial-gradient(closest-side at 40% 70%, rgba(255,255,255,.65), rgba(255,255,255,0) 70%) 20% 70% / 55% 35% no-repeat,
+      radial-gradient(closest-side at 80% 80%, rgba(255,255,255,.55), rgba(255,255,255,0) 70%) 85% 75% / 48% 30% no-repeat;
+    animation: clouds-drift 40s linear infinite;
+    opacity:.9;
+  }
+  #sky-bg .clouds::before{ content:""; filter: blur(4px) brightness(1.05); animation-duration: 65s; animation-direction: reverse; opacity:.75; }
+  #sky-bg .clouds::after{ content:""; filter: blur(6px); animation-duration: 90s; opacity:.6; }
+  @keyframes clouds-drift{ 0%{ transform: translateX(-2%) } 50%{ transform: translateX(2%) translateY(-1%) } 100%{ transform: translateX(-2%) } }
+
+  #sky-bg .stars, #sky-bg .stars::after{
+    position:absolute; left:0; top:0; width:2px; height:2px; content:"";
+    background: radial-gradient(circle, rgba(255,255,255,.95) 0 40%, rgba(255,255,255,0) 70%);
+    border-radius:50%; animation: twinkle 2.6s ease-in-out infinite;
+    box-shadow:
+      5vw 8vh rgba(255,255,255,.85),
+      18vw 12vh rgba(255,255,255,.9),
+      33vw 6vh rgba(255,255,255,.8),
+      52vw 10vh rgba(255,255,255,.85),
+      71vw 7vh rgba(255,255,255,.9),
+      86vw 14vh rgba(255,255,255,.8),
+      12vw 28vh rgba(255,255,255,.85),
+      28vw 35vh rgba(255,255,255,.8),
+      46vw 30vh rgba(255,255,255,.9),
+      63vw 26vh rgba(255,255,255,.85),
+      82vw 33vh rgba(255,255,255,.8);
+  }
+  #sky-bg .stars::after{
+    top:auto; bottom:0; left:auto; right:0; animation-duration: 3.4s; animation-delay:.6s; opacity:.9;
+    box-shadow:
+      9vw 60vh rgba(255,255,255,.85),
+      22vw 66vh rgba(255,255,255,.8),
+      38vw 58vh rgba(255,255,255,.9),
+      55vw 64vh rgba(255,255,255,.85),
+      74vw 55vh rgba(255,255,255,.8),
+      88vw 62vh rgba(255,255,255,.9),
+      15vw 82vh rgba(255,255,255,.85),
+      36vw 90vh rgba(255,255,255,.8),
+      58vw 86vh rgba(255,255,255,.9),
+      80vw 92vh rgba(255,255,255,.85);
+  }
+  @keyframes twinkle{ 0%,100%{ transform: scale(1); opacity:.8 } 50%{ transform: scale(1.7); opacity:1 } }
+
+  #sky-bg .sparkles, #sky-bg .sparkles::before, #sky-bg .sparkles::after{
+    position:absolute; inset:0; content:"";
+    background:
+      radial-gradient(8px 8px at 10% 20%, rgba(255,255,255,.55), rgba(255,255,255,0) 70%),
+      radial-gradient(10px 10px at 30% 35%, rgba(255,255,255,.45), rgba(255,255,255,0) 70%),
+      radial-gradient(7px 7px at 55% 25%, rgba(255,255,255,.5), rgba(255,255,255,0) 70%),
+      radial-gradient(9px 9px at 78% 18%, rgba(255,255,255,.5), rgba(255,255,255,0) 70%),
+      radial-gradient(7px 7px at 85% 45%, rgba(255,255,255,.45), rgba(255,255,255,0) 70%),
+      radial-gradient(8px 8px at 20% 70%, rgba(255,255,255,.45), rgba(255,255,255,0) 70%),
+      radial-gradient(6px 6px at 65% 80%, rgba(255,255,255,.5), rgba(255,255,255,0) 70%);
+    animation: sparkle-float 18s linear infinite; mix-blend-mode: screen; opacity:.55; filter: blur(.2px);
+  }
+  #sky-bg .sparkles::before{ animation-duration: 26s; animation-direction: reverse; opacity:.45 }
+  #sky-bg .sparkles::after { animation-duration: 34s; opacity:.35 }
+  @keyframes sparkle-float{ 0%{ transform: translateY(0) } 50%{ transform: translateY(-10px) } 100%{ transform: translateY(0) } }
+
   header{
     max-width:1100px; margin:18px auto 8px; padding:18px 20px;
     background:linear-gradient(180deg,#fff,#fff9);
@@ -37,7 +113,6 @@
     box-shadow:0 6px 15px rgba(230,160,200,.18);
   }
   .btn:hover{transform:translateY(-1px)}
-  input[type="file"]{display:none}
   .range{width:160px}
 
   /* Sticky Love Meter */
@@ -60,19 +135,84 @@
   }
 
   /* Tooltip popup */
+  .help-btn{margin-left:10px; font-weight:800; border:1px dashed var(--line); border-radius:999px; padding:2px 8px; cursor:pointer}
   .tooltip{position:fixed; z-index:20; max-width:320px; background:#fff; border:2px solid var(--line);
            border-radius:14px; padding:10px 12px; box-shadow:0 8px 24px rgba(120,90,140,.12); display:none}
   .tooltip h4{margin:0 0 6px; font-size:14px}
   .tooltip p, .tooltip ul{margin:6px 0; font-size:13px; color:var(--muted)}
+
+  /* Describing People */
+  .dp-grid{display:grid; grid-template-columns:1fr minmax(220px,320px) 1fr; gap:16px}
+  .portrait{width:100%; max-width:340px; border-radius:16px; border:1.5px solid var(--line)}
+  .bio{background:#fff; border:1px dashed #f3d7ff; border-radius:16px; padding:12px; min-height:220px; line-height:1.55}
+  .bank{display:flex; flex-wrap:wrap; gap:8px; justify-content:center; align-content:flex-start; padding:8px; min-height:120px}
+  .token{padding:7px 10px; border-radius:999px; background:linear-gradient(180deg,#fff,#ffeaf4);
+         border:1.5px solid #ffd4ea; cursor:grab; user-select:none}
+  .token.drag{opacity:.5}
+  .slot{display:inline-flex; min-width:90px; min-height:28px; padding:6px 8px; margin:3px; border-radius:10px;
+        border:2px dashed #cfc0ff; background:#faf8ff; align-items:center; justify-content:center}
+  .slot.filled{border-style:solid; background:#fff}
+  .right{border-color:#bfead7 !important; background:#f6fffb}
+  .wrong{border-color:#ffc9d6 !important; background:#fff6f8}
+  .story{font-style:italic; color:var(--muted)}
+  .mini-result{margin-top:12px; padding:10px; border-radius:12px; border:1.5px solid var(--line); background:#fff}
+
+  /* Phrasal verbs */
+  .pv-grid{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+  .sentence{background:#fff; border:1px dashed #f3d7ff; border-radius:12px; padding:10px 12px}
+
+  /* MCQ */
+  .mcq{display:grid; gap:8px; margin-top:8px}
+  .mcq label{display:flex; gap:10px; align-items:center; padding:8px 10px; border-radius:12px;
+             border:1.5px solid #ffd6ea; background:#fff}
+
+  /* Listening player */
+  .player{display:flex; gap:10px; align-items:center; padding:10px; border-radius:14px; border:1.5px solid var(--line);
+          background:linear-gradient(180deg,#fff,#fff9)}
+  .range{width:200px}
+
+  /* Result */
+  .result{padding:14px; border-radius:16px; border:1.5px solid var(--line); background:#fff}
+  .result img{max-width:100%; border-radius:16px; border:1.5px solid var(--line)}
+
+  /* ==== Grammar extras ==== */
+  .gap{
+    padding:6px 8px; border:1.5px solid var(--line); border-radius:10px; background:#fff;
+  }
+  .gap.right{border-color:#bfead7; background:#f6fffb}
+  .gap.wrong{border-color:#ffc9d6; background:#fff6f8}
+
+  .grid-2{display:grid; grid-template-columns:1fr 1fr; gap:12px}
+
+  /* Conditionals matching (tiny DnD) */
+  .match-wrap{display:grid; grid-template-columns:1fr 1fr; gap:16px; align-items:start}
+  .left-col .cslot{
+    display:block; padding:10px 12px; margin:8px 0;
+    background:#fff; border:2px dashed #cfc0ff; border-radius:12px; min-height:42px
+  }
+  .left-col .cslot.filled{border-style:solid; background:#fdfcff}
+  .ctoken{
+    display:inline-block; margin:6px; padding:8px 12px;
+    border-radius:12px; background:linear-gradient(180deg,#fff,#ffeef6);
+    border:1.5px solid var(--line); cursor:grab; user-select:none
+  }
+  .left-col .cslot.right{border-color:#bfead7; background:#f6fffb}
+  .left-col .cslot.wrong{border-color:#ffc9d6; background:#fff6f8}
 </style>
 </head>
 <body>
+
+<!-- CGI sky background -->
+<div id="sky-bg" aria-hidden="true">
+  <div class="stars"></div>
+  <div class="sparkles"></div>
+  <div class="clouds"></div>
+</div>
 
 <header>
   <h1>Alex and Mia: their love is in your hands</h1>
   <p class="sub">A2+ • romantic anime vibe • complete tasks to earn Love Points 💖</p>
   <div class="controls">
-    <label class="pill">Upload background <input id="bgFile" type="file" accept="image/*"></label>
     <div class="pill">🎵 Lo-fi <button class="btn" id="bgToggle">On/Off</button>
       <input id="bgVol" type="range" class="range" min="0" max="1" step="0.05" value="0.35">
     </div>
@@ -93,62 +233,718 @@
 </div>
 
 <main>
-  <!-- здесь дальше будем добавлять блоки заданий по частям -->
+  <!-- Welcome -->
   <section class="card">
     <h2 style="margin:0">Welcome!</h2>
-    <p>We’ll add vocabulary blocks step by step. The Love Meter stays on top; music is controllable and loops softly.</p>
+    <p>Complete vocabulary, listening and reading to help Alex win Mia’s heart. The Love Meter stays on top; music loops softly.</p>
+  </section>
+
+  <!-- === VOCAB: Describing People === -->
+  <section class="card" id="describing">
+    <h2 style="margin:0">
+      Describing People — Mia & Alex
+      <button class="help-btn" data-tip="#tip-describing">?</button>
+    </h2>
+    <p>Drag words from the word bank into the text about Mia and Alex.</p>
+
+    <div class="dp-grid">
+      <!-- Mia -->
+      <div>
+        <img src="images/Mia-portrait.png" alt="Mia portrait" class="portrait">
+        <div class="bio slots" id="miaText">
+          Mia was the “book girl” in class. She had long <span class="slot" data-a="fair"></span> hair and a small <span class="slot" data-a="round"></span> face.
+          She was very <span class="slot" data-a="intelligent"></span> and <span class="slot" data-a="ambitious"></span>.
+          Her eyes shone with <span class="slot" data-a="enthusiasm"></span> and her voice sounded <span class="slot" data-a="sociable"></span> and <span class="slot" data-a="optimistic"></span>.
+          She was also <span class="slot" data-a="kind"></span> and never laughed at shy students.
+        </div>
+      </div>
+
+      <!-- Word bank (center) -->
+      <div>
+        <div id="bank" class="bank"></div>
+      </div>
+
+      <!-- Alex -->
+      <div>
+        <img src="images/Alex-portrait.png" alt="Alex portrait" class="portrait">
+        <div class="bio slots" id="alexText">
+          Alex was Mia’s classmate for three years. He was <span class="slot" data-a="tall"></span> and <span class="slot" data-a="athletic"></span>,
+          with short <span class="slot" data-a="dark"></span> hair and warm <span class="slot" data-a="brown"></span> eyes.
+          At first, he looked a little <span class="slot" data-a="serious"></span>, but he was actually <span class="slot" data-a="friendly"></span> and always ready to help.
+          He always helps, so he is <span class="slot" data-a="helpful"></span>. His smile is <span class="slot" data-a="cheerful"></span> and <span class="slot" data-a="confident"></span>.
+        </div>
+      </div>
+    </div>
+
+    <p class="story">Alex gave Mia his jacket on a rainy day. Every correct word you choose moves the heart forward. Help him! 💌</p>
+
+    <div class="mini-result" id="peopleResult">Score will appear here after you press <b>Check Answers</b>.</div>
+  </section>
+
+  <!-- === VOCAB: Phrasal Verbs === -->
+  <section class="card" id="phrasal">
+    <h2 style="margin:0">
+      Phrasal Verbs — Drag the best verb into each sentence
+      <button class="help-btn" data-tip="#tip-phrasal">?</button>
+    </h2>
+    <div class="pv-grid">
+      <div class="sentence">1) Don’t be sad. I hope this music will <span class="slot" data-a="cheer up"></span> you.</div>
+      <div class="sentence">2) I can’t <span class="slot" data-a="deal with"></span> this problem right now.</div>
+      <div class="sentence">3) You can always <span class="slot" data-a="depend on"></span> your best friend.</div>
+      <div class="sentence">4) I usually <span class="slot" data-a="get on with"></span> my classmates.</div>
+      <div class="sentence">5) Don’t <span class="slot" data-a="give up"></span>, you’re doing great!</div>
+      <div class="sentence">6) Let’s <span class="slot" data-a="hang out"></span> in the park after school.</div>
+      <div class="sentence">7) Many young players <span class="slot" data-a="look up to"></span> famous football stars.</div>
+      <div class="sentence">8) Can you <span class="slot" data-a="take care of"></span> your little sister?</div>
+    </div>
+    <div id="pvBank" class="bank"></div>
+  </section>
+
+  <!-- === VOCAB: Planet Earth & Nature (desc → word MCQ) === -->
+  <section class="card" id="nature">
+    <h2 style="margin:0">
+      Planet Earth & Nature — Choose the word
+      <button class="help-btn" data-tip="#tip-nature">?</button>
+    </h2>
+    <div class="mcq" id="natureMcq">
+      <div><b>1.</b> A high rock wall next to the sea.</div>
+      <label><input type="radio" name="n1" data-a="1"> cliff</label>
+      <label><input type="radio" name="n1"> valley</label>
+      <label><input type="radio" name="n1"> cave</label>
+
+      <div><b>2.</b> A piece of land with water all around except one side.</div>
+      <label><input type="radio" name="n2"> coast</label>
+      <label><input type="radio" name="n2" data-a="1"> bay</label>
+      <label><input type="radio" name="n2"> volcano</label>
+
+      <div><b>3.</b> Very wet and hot forest with many trees and animals.</div>
+      <label><input type="radio" name="n3"> iceberg</label>
+      <label><input type="radio" name="n3" data-a="1"> rainforest</label>
+      <label><input type="radio" name="n3"> valley</label>
+
+      <div><b>4.</b> A large block of ice floating in the sea.</div>
+      <label><input type="radio" name="n4"> bay</label>
+      <label><input type="radio" name="n4"> cave</label>
+      <label><input type="radio" name="n4" data-a="1"> iceberg</label>
+
+      <div><b>5.</b> Water falling from a height.</div>
+      <label><input type="radio" name="n5"> volcano</label>
+      <label><input type="radio" name="n5" data-a="1"> waterfall</label>
+      <label><input type="radio" name="n5"> cliff</label>
+
+      <div><b>6.</b> A large mountain that can send out fire and smoke.</div>
+      <label><input type="radio" name="n6"> valley</label>
+      <label><input type="radio" name="n6" data-a="1"> volcano</label>
+      <label><input type="radio" name="n6"> coast</label>
+
+      <div><b>7.</b> A deep place between mountains.</div>
+      <label><input type="radio" name="n7" data-a="1"> valley</label>
+      <label><input type="radio" name="n7"> rainforest</label>
+      <label><input type="radio" name="n7"> bay</label>
+
+      <div><b>8.</b> A hole in the side of a hill or mountain.</div>
+      <label><input type="radio" name="n8" data-a="1"> cave</label>
+      <label><input type="radio" name="n8"> coast</label>
+      <label><input type="radio" name="n8"> waterfall</label>
+    </div>
+  </section>
+
+  <!-- === VOCAB: Visual & Performing Arts (Reading + 8 MCQ) === -->
+  <section class="card" id="arts">
+    <h2 style="margin:0">
+      Alex & Mia at the gallery — Reading
+      <button class="help-btn" data-tip="#tip-arts">?</button>
+    </h2>
+    <div class="bio" style="line-height:1.55">
+      On Saturday afternoon, Alex and Mia visited a small <b>gallery</b> near the river. First, they walked through a new
+      <b>exhibition</b> of modern paintings and a quiet room of sculptures. A young guide invited them to the theatre hall at the back.
+      “You can watch a short <b>rehearsal</b>,” she said. Two actors were on the <b>stage</b>, repeating their <b>lines</b> and speaking slowly.
+      A director stopped them and gave simple notes. “There is an <b>audition</b> today for the next show,” he added. After that, the guide
+      showed them a small <b>studio</b> next door, with cameras, lights, and soft microphones. Mia whispered, “I love this world.”
+      Alex smiled and wrote the words in his notebook.
+    </div>
+    <div class="mcq">
+      <label><input type="radio" name="a1" data-a="1"> They went to a gallery.</label>
+      <label><input type="radio" name="a1"> They went to a cinema.</label>
+      <label><input type="radio" name="a1"> They went to a stadium.</label>
+
+      <label><input type="radio" name="a2"> They saw a festival first.</label>
+      <label><input type="radio" name="a2" data-a="1"> They walked through a new exhibition.</label>
+      <label><input type="radio" name="a2"> They had lunch in a cafeteria.</label>
+
+      <label><input type="radio" name="a3" data-a="1"> Two actors were on the stage.</label>
+      <label><input type="radio" name="a3"> Two actors were outside.</label>
+      <label><input type="radio" name="a3"> Two actors were in the studio.</label>
+
+      <label><input type="radio" name="a4"> The actors repeated their names.</label>
+      <label><input type="radio" name="a4" data-a="1"> The actors repeated their lines.</label>
+      <label><input type="radio" name="a4"> The actors learned to dance.</label>
+
+      <label><input type="radio" name="a5"> The guide gave notes to the actors.</label>
+      <label><input type="radio" name="a5" data-a="1"> The director gave notes to the actors.</label>
+      <label><input type="radio" name="a5"> The photographer gave notes to the actors.</label>
+
+      <label><input type="radio" name="a6"> There was a concert today.</label>
+      <label><input type="radio" name="a6"> There was a rehearsal today.</label>
+      <label><input type="radio" name="a6" data-a="1"> There was an audition today.</label>
+
+      <label><input type="radio" name="a7"> A studio has seats and tickets.</label>
+      <label><input type="radio" name="a7" data-a="1"> A studio has cameras and lights.</label>
+      <label><input type="radio" name="a7"> A studio has trees and benches.</label>
+
+      <label><input type="radio" name="a8" data-a="1"> Alex wrote words in his notebook.</label>
+      <label><input type="radio" name="a8"> Alex sang on the stage.</label>
+      <label><input type="radio" name="a8"> Alex bought a painting.</label>
+    </div>
+  </section>
+
+  <!-- === LISTENING (Environment) — Gap-fill -> Play -> 6 MCQ === -->
+  <section class="card" id="listening">
+    <h2 style="margin:0">
+      Environment — Listening & Comprehension
+      <button class="help-btn" data-tip="#tip-listening">?</button>
+    </h2>
+    <p><b>Step 1:</b> Fill the gaps. <b>Step 2:</b> Press Play, listen and fix your answers. <b>Step 3:</b> Answer the questions.</p>
+
+    <!-- gap-fill -->
+    <div class="bio">
+      1) Climate <input class="gap" data-a="change" size="10"> makes the weather more extreme.<br>
+      2) <input class="gap" data-a="Pollution" size="10"> from cars makes the air dirty.<br>
+      3) In the <input class="gap" data-a="rainforest" size="10"> many trees are cut down.<br>
+      4) <input class="gap" data-a="wildlife" size="10"> is losing its home.<br>
+      5) Some animals are <input class="gap" data-a="endangered" size="10"> species.<br>
+      6) We need clean <input class="gap" data-a="energy" size="10"> like solar and wind.<br>
+      7) Rivers, lakes, and <input class="gap" data-a="waterfalls" size="10"> give us fresh water.<br>
+      8) <input class="gap" data-a="oxygen" size="10"> is 21 percent of the air we breathe.
+    </div>
+
+    <!-- custom player -->
+    <div class="player">
+      <button class="btn" id="listenPlay">▶ Play / Pause</button>
+      <input id="listenSeek" type="range" class="range" min="0" max="100" value="0">
+      <span id="time" class="muted"></span>
+    </div>
+    <audio id="listenAudio">
+      <source src="audio/listening-environment.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 6 MCQ -->
+    <div class="mcq" id="listenMcq">
+      <div><b>Questions (choose one):</b></div>
+      <label><input type="radio" name="qL1"> It makes food taste bad.</label>
+      <label><input type="radio" name="qL1" data-a="1"> It is dangerous for people and animals.</label>
+      <label><input type="radio" name="qL1"> It makes the weather colder.</label>
+
+      <label><input type="radio" name="qL2" data-a="1"> Clean energy like solar and wind.</label>
+      <label><input type="radio" name="qL2"> Only coal and oil.</label>
+      <label><input type="radio" name="qL2"> More cars and factories.</label>
+
+      <label><input type="radio" name="qL3"> In the mountains.</label>
+      <label><input type="radio" name="qL3" data-a="1"> In the rainforest.</label>
+      <label><input type="radio" name="qL3"> In the desert.</label>
+
+      <label><input type="radio" name="qL4"> Very slowly.</label>
+      <label><input type="radio" name="qL4" data-a="1"> Very fast.</label>
+      <label><input type="radio" name="qL4"> Not changing.</label>
+
+      <label><input type="radio" name="qL5"> 10%.</label>
+      <label><input type="radio" name="qL5" data-a="1"> 21%.</label>
+      <label><input type="radio" name="qL5"> 50%.</label>
+
+      <label><input type="radio" name="qL6" data-a="1"> Take care of it.</label>
+      <label><input type="radio" name="qL6"> Ignore it.</label>
+      <label><input type="radio" name="qL6"> Cut all trees.</label>
+    </div>
+  </section>
+
+  <!-- === GRAMMAR: Past Simple vs Past Continuous === -->
+  <section class="card" id="pspc">
+    <h2 style="margin:0">
+      Past Simple vs Past Continuous
+      <button class="help-btn" data-tip="#tip-pspc">?</button>
+    </h2>
+    <div class="mcq">
+      <div><b>1.</b></div>
+      <label><input type="radio" name="ps1" data-a="1"> While we <b>were walking</b> home, it <b>started</b> to rain.</label>
+      <label><input type="radio" name="ps1"> While we <b>walked</b> home, it <b>was starting</b> to rain.</label>
+      <label><input type="radio" name="ps1"> While we <b>were walking</b> home, it <b>was starting</b> to rain.</label>
+
+      <div><b>2.</b></div>
+      <label><input type="radio" name="ps2"> She <b>watched</b> a film when I <b>was calling</b> her.</label>
+      <label><input type="radio" name="ps2" data-a="1"> She <b>was watching</b> a film when I <b>called</b> her.</label>
+      <label><input type="radio" name="ps2"> She <b>watches</b> a film when I <b>called</b> her.</label>
+
+      <div><b>3.</b></div>
+      <label><input type="radio" name="ps3" data-a="1"> As we <b>were having</b> dinner, the lights <b>went</b> off.</label>
+      <label><input type="radio" name="ps3"> As we <b>had</b> dinner, the lights <b>were going</b> off.</label>
+      <label><input type="radio" name="ps3"> As we <b>were having</b> dinner, the lights <b>were going</b> off.</label>
+
+      <div><b>4.</b></div>
+      <label><input type="radio" name="ps4"> When he <b>was cycling</b>, he <b>was seeing</b> Mia.</label>
+      <label><input type="radio" name="ps4" data-a="1"> When he <b>was cycling</b>, he <b>saw</b> Mia.</label>
+      <label><input type="radio" name="ps4"> When he <b>cycled</b>, he <b>was seeing</b> Mia.</label>
+
+      <div><b>5.</b></div>
+      <label><input type="radio" name="ps5" data-a="1"> While the teacher <b>was speaking</b>, we <b>took</b> notes.</label>
+      <label><input type="radio" name="ps5"> While the teacher <b>spoke</b>, we <b>were taking</b> notes.</label>
+      <label><input type="radio" name="ps5"> While the teacher <b>spoke</b>, we <b>took</b> notes.</label>
+
+      <div><b>6.</b></div>
+      <label><input type="radio" name="ps6"> I <b>was hearing</b> a noise when I <b>slept</b>.</label>
+      <label><input type="radio" name="ps6" data-a="1"> I <b>heard</b> a noise when I <b>was sleeping</b>.</label>
+      <label><input type="radio" name="ps6"> I <b>was hearing</b> a noise when I <b>was sleeping</b>.</label>
+
+      <div><b>7.</b></div>
+      <label><input type="radio" name="ps7" data-a="1"> While they <b>were studying</b>, the phone <b>rang</b>.</label>
+      <label><input type="radio" name="ps7"> While they <b>studied</b>, the phone <b>was ringing</b>.</label>
+      <label><input type="radio" name="ps7"> While they <b>were studying</b>, the phone <b>was ringing</b>.</label>
+
+      <div><b>8.</b></div>
+      <label><input type="radio" name="ps8"> As I <b>walked</b> to school, I <b>was meeting</b> Alex.</label>
+      <label><input type="radio" name="ps8"> As I <b>was walking</b> to school, I <b>was meeting</b> Alex.</label>
+      <label><input type="radio" name="ps8" data-a="1"> As I <b>was walking</b> to school, I <b>met</b> Alex.</label>
+    </div>
+  </section>
+
+  <!-- === GRAMMAR: used to (Fill-in) === -->
+  <section class="card" id="usedto">
+    <h2 style="margin:0">used to — Fill in <button class="help-btn" data-tip="#tip-usedto">?</button></h2>
+    <div class="bio">
+      1) I <input class="gap" data-a="used to" size="10"> play the piano when I was ten.<br>
+      2) My grandfather <input class="gap" data-a="used to" size="10"> live in a village.<br>
+      3) We <input class="gap" data-a="used to" size="10"> watch cartoons every morning.<br>
+      4) She didn't <input class="gap" data-a="use to" size="10"> like vegetables.<br>
+      5) There <input class="gap" data-a="used to be" size="12"> a park here.<br>
+      6) Did you <input class="gap" data-a="use to" size="10"> collect stamps?<br>
+      7) I <input class="gap" data-a="didn't use to" size="14"> drink coffee.<br>
+      8) She <input class="gap" data-a="used to" size="10"> be very shy.
+    </div>
+  </section>
+
+  <!-- === GRAMMAR: Present Perfect vs Past Simple === -->
+  <section class="card" id="pp">
+    <h2 style="margin:0">Present Perfect vs Past Simple <button class="help-btn" data-tip="#tip-pp">?</button></h2>
+    <div class="mcq">
+      <label><input type="radio" name="pp1" data-a="1"> I have just finished my project.</label>
+      <label><input type="radio" name="pp1"> I just finish my project.</label>
+      <label><input type="radio" name="pp1"> I have finished my project yesterday.</label>
+
+      <label><input type="radio" name="pp2" data-a="1"> She has already done her homework.</label>
+      <label><input type="radio" name="pp2"> She did her homework just.</label>
+      <label><input type="radio" name="pp2"> She has done her homework in 2022.</label>
+
+      <label><input type="radio" name="pp3"> We have been to Paris in 2019.</label>
+      <label><input type="radio" name="pp3" data-a="1"> We went to Paris in 2019.</label>
+      <label><input type="radio" name="pp3"> We have gone to Paris yesterday.</label>
+
+      <label><input type="radio" name="pp4" data-a="1"> Have you seen this film yet?</label>
+      <label><input type="radio" name="pp4"> Did you see this film yet?</label>
+      <label><input type="radio" name="pp4"> Have you saw this film yet?</label>
+
+      <label><input type="radio" name="pp5"> He didn't eat since morning.</label>
+      <label><input type="radio" name="pp5" data-a="1"> He hasn't eaten since morning.</label>
+      <label><input type="radio" name="pp5"> He hasn't ate since morning.</label>
+
+      <label><input type="radio" name="pp6" data-a="1"> I have lived here for two years.</label>
+      <label><input type="radio" name="pp6"> I live here for two years.</label>
+      <label><input type="radio" name="pp6"> I lived here for two years (now).</label>
+
+      <label><input type="radio" name="pp7" data-a="1"> She has just left.</label>
+      <label><input type="radio" name="pp7"> She just leaves.</label>
+      <label><input type="radio" name="pp7"> She has left yesterday.</label>
+
+      <label><input type="radio" name="pp8" data-a="1"> We haven't finished yet.</label>
+      <label><input type="radio" name="pp8"> We didn't finished yet.</label>
+      <label><input type="radio" name="pp8"> We haven't finish yet.</label>
+    </div>
+  </section>
+
+  <!-- === GRAMMAR: Ability === -->
+  <section class="card" id="ability">
+    <h2 style="margin:0">Ability — choose the correct form <button class="help-btn" data-tip="#tip-ability">?</button></h2>
+    <div class="mcq">
+      <label><input type="radio" name="ab1"> She <b>can</b> swim when she was five.</label>
+      <label><input type="radio" name="ab1" data-a="1"> She <b>could</b> swim when she was five.</label>
+      <label><input type="radio" name="ab1"> She <b>will be able to</b> swim when she was five.</label>
+
+      <label><input type="radio" name="ab2"> I <b>can</b> speak French next year if I practice.</label>
+      <label><input type="radio" name="ab2" data-a="1"> I <b>will be able to</b> speak French next year if I practice.</label>
+      <label><input type="radio" name="ab2"> I <b>could</b> speak French next year if I practice.</label>
+
+      <label><input type="radio" name="ab3" data-a="1"> He <b>can</b> help you now.</label>
+      <label><input type="radio" name="ab3"> He <b>could</b> help you now (request).</label>
+      <label><input type="radio" name="ab3"> He <b>will be able to</b> help you now.</label>
+
+      <label><input type="radio" name="ab4" data-a="1"> They <b>could</b> climb the tree yesterday.</label>
+      <label><input type="radio" name="ab4"> They <b>can</b> climb the tree yesterday.</label>
+      <label><input type="radio" name="ab4"> They <b>will be able to</b> climb the tree yesterday.</label>
+
+      <label><input type="radio" name="ab5"> Will you <b>can</b> come tomorrow?</label>
+      <label><input type="radio" name="ab5" data-a="1"> Will you <b>be able to</b> come tomorrow?</label>
+      <label><input type="radio" name="ab5"> Will you <b>could</b> come tomorrow?</label>
+
+      <label><input type="radio" name="ab6" data-a="1"> When I was a child, I <b>could</b> run fast.</label>
+      <label><input type="radio" name="ab6"> When I was a child, I <b>can</b> run fast.</label>
+      <label><input type="radio" name="ab6"> When I was a child, I <b>will be able to</b> run fast.</label>
+
+      <label><input type="radio" name="ab7"> I'm busy, I <b>couldn't</b> talk now.</label>
+      <label><input type="radio" name="ab7" data-a="1"> I'm busy, I <b>can't</b> talk now.</label>
+      <label><input type="radio" name="ab7"> I'm busy, I <b>won't be able to</b> talk now.</label>
+
+      <label><input type="radio" name="ab8" data-a="1"> If you practice, you <b>will be able to</b> solve this.</label>
+      <label><input type="radio" name="ab8"> If you practice, you <b>can</b> solve this yesterday.</label>
+      <label><input type="radio" name="ab8"> If you practice, you <b>could</b> solve this now (past).</label>
+    </div>
+  </section>
+
+  <!-- === GRAMMAR: Quantifiers + should/ought to === -->
+  <section class="card" id="quant">
+    <h2 style="margin:0">Quantifiers & Advice — Fill in <button class="help-btn" data-tip="#tip-quant">?</button></h2>
+    <div class="bio">
+      1) You <input class="gap" data-a="should" size="8"> see a doctor.<br>
+      2) We have <input class="gap" data-a="a few" size="8"> apples.<br>
+      3) There isn't <input class="gap" data-a="much" size="8"> sugar left.<br>
+      4) She drinks <input class="gap" data-a="a lot of" size="10"> water.<br>
+      5) He <input class="gap" data-a="ought to" size="9"> apologize.<br>
+      6) Do you have <input class="gap" data-a="any" size="6"> questions?<br>
+      7) I have <input class="gap" data-a="a little" size="9"> time.<br>
+      8) You <input class="gap" data-a="shouldn't" size="10"> eat so much candy.
+    </div>
+  </section>
+
+  <!-- === GRAMMAR: Conditionals (1st & 2nd) — Matching === -->
+  <section class="card" id="cond">
+    <h2 style="margin:0">Conditionals (1st & 2nd) — Match pairs <button class="help-btn" data-tip="#tip-cond">?</button></h2>
+    <div class="match-wrap">
+      <div class="left-col">
+        <div class="cslot" data-a="A">A) If it rains, …</div>
+        <div class="cslot" data-a="B">B) If I study hard, …</div>
+        <div class="cslot" data-a="C">C) If we miss the bus, …</div>
+        <div class="cslot" data-a="D">D) If I were you, …</div>
+        <div class="cslot" data-a="E">E) If she doesn't call, …</div>
+        <div class="cslot" data-a="F">F) If they are late, …</div>
+        <div class="cslot" data-a="G">G) If he saves money, …</div>
+        <div class="cslot" data-a="H">H) If we had a car, …</div>
+      </div>
+      <div class="right-col">
+        <div id="condBank">
+          <span class="ctoken" draggable="true" data-k="A">… we’ll stay at home.</span>
+          <span class="ctoken" draggable="true" data-k="B">… I’ll pass the exam.</span>
+          <span class="ctoken" draggable="true" data-k="C">… we’ll be late.</span>
+          <span class="ctoken" draggable="true" data-k="D">… I would talk to her.</span>
+          <span class="ctoken" draggable="true" data-k="E">… we’ll send a message.</span>
+          <span class="ctoken" draggable="true" data-k="F">… we will start without them.</span>
+          <span class="ctoken" draggable="true" data-k="G">… he’ll buy a bike.</span>
+          <span class="ctoken" draggable="true" data-k="H">… we would travel more.</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- === GRAMMAR: Passive voice === -->
+  <section class="card" id="passive">
+    <h2 style="margin:0">Passive voice — choose the correct form <button class="help-btn" data-tip="#tip-passive">?</button></h2>
+    <div class="mcq">
+      <label><input type="radio" name="pv1" data-a="1"> The film <b>was made</b> in 2005.</label>
+      <label><input type="radio" name="pv1"> The film <b>made</b> in 2005.</label>
+      <label><input type="radio" name="pv1"> The film <b>is make</b> in 2005.</label>
+
+      <label><input type="radio" name="pv2" data-a="1"> English <b>is spoken</b> in many countries.</label>
+      <label><input type="radio" name="pv2"> English <b>speaks</b> in many countries.</label>
+      <label><input type="radio" name="pv2"> English <b>was speak</b> in many countries.</label>
+
+      <label><input type="radio" name="pv3" data-a="1"> The cakes <b>were baked</b> by my grandma yesterday.</label>
+      <label><input type="radio" name="pv3"> The cakes <b>are baked</b> by my grandma yesterday.</label>
+      <label><input type="radio" name="pv3"> The cakes <b>baked</b> by my grandma yesterday.</label>
+
+      <label><input type="radio" name="pv4" data-a="1"> The room <b>is cleaned</b> every day.</label>
+      <label><input type="radio" name="pv4"> The room <b>was cleaned</b> every day.</label>
+      <label><input type="radio" name="pv4"> The room <b>cleans</b> every day.</label>
+
+      <label><input type="radio" name="pv5" data-a="1"> The window <b>was broken</b> last night.</label>
+      <label><input type="radio" name="pv5"> The window <b>is broken</b> last night.</label>
+      <label><input type="radio" name="pv5"> The window <b>breaks</b> last night.</label>
+
+      <label><input type="radio" name="pv6" data-a="1"> Our homework <b>is checked</b> by the teacher.</label>
+      <label><input type="radio" name="pv6"> Our homework <b>was check</b> by the teacher.</label>
+      <label><input type="radio" name="pv6"> Our homework <b>checks</b> by the teacher.</label>
+
+      <label><input type="radio" name="pv7" data-a="1"> The letters <b>were sent</b> last week.</label>
+      <label><input type="radio" name="pv7"> The letters <b>are sent</b> last week.</label>
+      <label><input type="radio" name="pv7"> The letters <b>send</b> last week.</label>
+
+      <label><input type="radio" name="pv8" data-a="1"> This song <b>was written</b> by a famous artist.</label>
+      <label><input type="radio" name="pv8"> This song <b>is write</b> by a famous artist.</label>
+      <label><input type="radio" name="pv8"> This song <b>wrote</b> by a famous artist.</label>
+    </div>
+  </section>
+
+  <!-- RESULTS -->
+  <section class="card" id="results">
+    <h2 style="margin:0">Your Love Points & Ending</h2>
+    <div class="result" id="resultBox">
+      Press <b>Check Answers</b> to see your Love Points and ending scene. <br>
+      📸 <b>Send a screenshot of this text to your teacher.</b>
+    </div>
   </section>
 </main>
 
 <!-- Audio elements -->
 <audio id="bgMusic" loop>
-  <source src="assets/audio/bg-lofi.mp3" type="audio/mpeg">
+  <source src="audio/background-music.mp3" type="audio/mpeg">
 </audio>
 <audio id="clickSfx">
-  <source src="assets/audio/click.mp3" type="audio/mpeg">
+  <source src="audio/click.mp3" type="audio/mpeg">
 </audio>
 
-<!-- (общее окно для тултипов — наполним в следующих частях) -->
-<div class="tooltip" id="tooltip"></div>
+<!-- Tooltip templates -->
+<div id="tip-describing" hidden>
+  <h4>Hint — Describing people</h4>
+  <p><b>Appearance</b>: tall, dark hair, fair hair, brown eyes, round face.</p>
+  <p><b>Personality</b>: friendly, helpful, confident, ambitious, optimistic, sociable, kind, serious.</p>
+  <p>Opposites: confident ↔ shy; patient ↔ impatient.</p>
+</div>
+<div id="tip-phrasal" hidden>
+  <h4>Phrasal verbs — meanings (RU)</h4>
+  <ul>
+    <li><b>cheer up</b> — взбодрить, развеселить</li>
+    <li><b>deal with</b> — разобраться с</li>
+    <li><b>depend on</b> — полагаться на</li>
+    <li><b>get on with</b> — ладить</li>
+    <li><b>give up</b> — сдаваться</li>
+    <li><b>hang out</b> — тусоваться, проводить время вместе</li>
+    <li><b>look up to</b> — восхищаться, брать пример</li>
+    <li><b>take care of</b> — присматривать за</li>
+  </ul>
+</div>
+<div id="tip-nature" hidden>
+  <h4>How to choose</h4>
+  <p>Look at features: water around land = <b>bay</b>; high rock edge = <b>cliff</b>; falling water = <b>waterfall</b>.</p>
+</div>
+<div id="tip-arts" hidden>
+  <h4>Reading tip</h4>
+  <p>Read once for the main idea. Then scan for key nouns: gallery, exhibition, rehearsal, audition, lines, stage, studio.</p>
+</div>
+<div id="tip-listening" hidden>
+  <h4>Listening tip</h4>
+  <p>Focus on key words: climate change, pollution, rainforest, wildlife, endangered species, energy, waterfalls, oxygen.</p>
+</div>
+<div id="tip-pspc" hidden>
+  <h4>Past Simple vs Past Continuous</h4>
+  <p><b>Past Continuous</b> = long background action; <b>Past Simple</b> = short finished action. While/As → long action.</p>
+</div>
+<div id="tip-usedto" hidden>
+  <h4>used to</h4>
+  <p><b>used to + V</b> = past habit/state (not true now). Negative: <b>didn’t use to</b>. Question: <b>Did you use to…?</b></p>
+</div>
+<div id="tip-pp" hidden>
+  <h4>Present Perfect vs Past Simple</h4>
+  <p>PP = result/experience (<b>for/since</b>, <b>already/just/yet</b>), no finished time. Past Simple = finished time (<b>yesterday</b>, <b>in 2020</b>).</p>
+</div>
+<div id="tip-ability" hidden>
+  <h4>Ability</h4>
+  <p><b>can</b> (now), <b>could</b> (past/polite), <b>will be able to</b> (future ability).</p>
+</div>
+<div id="tip-quant" hidden>
+  <h4>Quantifiers & Advice</h4>
+  <p><b>some/any</b>, <b>a few/a little</b>, <b>much/many</b>; advice: <b>should / shouldn’t / ought to</b>.</p>
+</div>
+<div id="tip-cond" hidden>
+  <h4>Conditionals</h4>
+  <p><b>1st</b>: If + Present, will + V (real future). <b>2nd</b>: If + Past, would + V (unreal/imaginary).</p>
+</div>
+<div id="tip-passive" hidden>
+  <h4>Passive voice</h4>
+  <p>be + V3: <b>am/is/are + V3</b> (present), <b>was/were + V3</b> (past).</p>
+</div>
 
 <script>
-/* Background upload */
-const bgFile = document.getElementById('bgFile');
-bgFile?.addEventListener('change', e => {
-  const f = e.target.files?.[0]; if(!f) return;
-  const url = URL.createObjectURL(f);
-  document.body.style.backgroundImage =
-    `url('${url}'), radial-gradient(1100px 650px at -10% -10%, var(--bg2), transparent 60%), radial-gradient(1100px 650px at 110% 10%, var(--bg1), transparent 60%), linear-gradient(180deg, var(--bg1), var(--bg2))`;
-  document.body.style.backgroundSize = 'cover, auto, auto, auto';
-});
-
 /* Click SFX */
 const clickAudio = document.getElementById('clickSfx');
 document.addEventListener('click', e => {
   if(e.target.closest('button')) { try { clickAudio.currentTime = 0; clickAudio.play(); } catch{} }
 });
 
-/* BG music + gentle ducking hooks (listening добавим позже) */
+/* BG music (loop) + controls */
 const bg = document.getElementById('bgMusic');
 const bgToggle = document.getElementById('bgToggle');
 const bgVol = document.getElementById('bgVol');
 let userMuted = false;
 bg.volume = parseFloat(bgVol.value || 0.35);
-
-// автозапуск после первого клика (политики браузеров)
+// autoplay after first user interaction
 document.addEventListener('click', function once() {
   bg.play().catch(()=>{});
   document.removeEventListener('click', once);
 }, {once:true});
-
 bgToggle.addEventListener('click', () => {
   if(bg.paused){ bg.play(); userMuted=false; } else { bg.pause(); userMuted=true; }
 });
 bgVol.addEventListener('input', ()=>{ bg.volume = parseFloat(bgVol.value); });
 
-/* Love Meter helpers (обновим счётчики, когда добавим задания) */
-function updateProgress(answered=0,total=0){
-  const pct = total? Math.min(100, Math.round((answered/total)*100)) : 0;
+/* Tooltip system (shared popup) */
+function showTipFromTemplate(templateSelector, anchor){
+  const tpl = document.querySelector(templateSelector);
+  if(!tpl) return;
+  const tip = document.createElement('div');
+  tip.className = 'tooltip';
+  tip.innerHTML = tpl.innerHTML;
+  document.body.appendChild(tip);
+  const r = anchor.getBoundingClientRect();
+  tip.style.display = 'block';
+  tip.style.left = (r.left + window.scrollX) + 'px';
+  tip.style.top  = (r.bottom + window.scrollY + 6) + 'px';
+  function close(e){ if(!tip.contains(e.target) && e.target!==anchor){ tip.remove(); document.removeEventListener('click',close); } }
+  setTimeout(()=> document.addEventListener('click', close));
+}
+document.addEventListener('click', (e)=>{
+  const t = e.target;
+  if(t.matches('[data-tip]')){ showTipFromTemplate(t.dataset.tip, t); }
+});
+
+/* Drag & Drop helpers (tokens + slots) */
+function makeToken(txt){
+  const t=document.createElement('span'); t.textContent=txt; t.className='token'; t.draggable=true;
+  t.addEventListener('dragstart',ev=>{ t.classList.add('drag'); ev.dataTransfer.setData('text/plain', txt); });
+  t.addEventListener('dragend',()=> t.classList.remove('drag'));
+  // double click on token in slot — return to bank
+  t.addEventListener('dblclick', ()=>{
+    if(t.parentElement && t.parentElement.classList.contains('slot')){
+      (document.getElementById('bank').contains(t)?document.getElementById('bank'):document.getElementById('bank')).appendChild(t);
+      const slot = t.parentElement;
+      slot.classList.remove('filled','right','wrong');
+      slot.dataset.v = '';
+      slot.textContent = '';
+      updateProgress();
+    }
+  });
+  return t;
+}
+function wireSlots(scope){
+  scope.querySelectorAll('.slot').forEach(slot=>{
+    slot.addEventListener('dragover', ev=>ev.preventDefault());
+    slot.addEventListener('drop', ev=>{
+      ev.preventDefault();
+      const txt = ev.dataTransfer.getData('text/plain');
+      if(!txt) return;
+
+      // if slot has a token — return it to bank
+      const current = slot.querySelector('.token');
+      if(current){ document.getElementById('bank').appendChild(current); }
+
+      // move existing token from another slot OR take from bank
+      const existing = [...document.querySelectorAll('.token')].find(
+        el => el.textContent===txt && el.parentElement && el.parentElement.classList.contains('slot')
+      );
+      if(existing){
+        const prevSlot = existing.parentElement;
+        prevSlot.classList.remove('filled','right','wrong'); prevSlot.dataset.v=''; prevSlot.textContent='';
+        slot.textContent=''; slot.appendChild(existing);
+      }else{
+        const fromBank = [...document.querySelectorAll('#bank .token,#pvBank .token')].find(el => el.textContent===txt);
+        if(fromBank){ slot.textContent=''; slot.appendChild(fromBank); }
+      }
+
+      slot.classList.add('filled');
+      slot.dataset.v = txt;
+      slot.classList.remove('right','wrong'); // reset highlight before check
+      updateProgress();
+    });
+  });
+}
+
+/* Word bank (Describing People) */
+const bank = document.getElementById('bank');
+['tall','athletic','dark','brown','serious','friendly','helpful','cheerful','confident','fair','round','intelligent','ambitious','enthusiasm','sociable','optimistic','kind']
+  .forEach(w=> bank.appendChild(makeToken(w)) );
+wireSlots(document.getElementById('describing'));
+
+/* Phrasal verbs bank */
+const pvBank = document.getElementById('pvBank');
+['cheer up','deal with','depend on','get on with','give up','hang out','look up to','take care of']
+  .forEach(w=> pvBank.appendChild(makeToken(w)) );
+wireSlots(document.getElementById('phrasal'));
+
+/* Listening custom player + ducking */
+const listenAudio = document.getElementById('listenAudio');
+const playBtn = document.getElementById('listenPlay');
+const seek = document.getElementById('listenSeek');
+const timeEl = document.getElementById('time');
+const DUCK_VOL = .1;
+const bgVolControl = document.getElementById('bgVol');
+const originalBgVol = ()=> parseFloat(bgVolControl.value || 0.35);
+
+playBtn.addEventListener('click', ()=>{ if(listenAudio.paused){ listenAudio.play(); } else { listenAudio.pause(); }});
+listenAudio.addEventListener('play', ()=>{ if(!bg.paused){ bg.volume = DUCK_VOL; } });
+function restoreBg(){ if(!userMuted){ bg.volume = originalBgVol(); } }
+listenAudio.addEventListener('pause', restoreBg);
+listenAudio.addEventListener('ended', restoreBg);
+listenAudio.addEventListener('timeupdate', ()=>{
+  const p = (listenAudio.currentTime / (listenAudio.duration||1))*100;
+  seek.value = p||0;
+  const t = s=>String(Math.floor(s/60)).padStart(2,'0')+':'+String(Math.floor(s%60)).padStart(2,'0');
+  timeEl.textContent = t(listenAudio.currentTime)+' / '+(isFinite(listenAudio.duration)?t(listenAudio.duration):'--:--');
+});
+seek.addEventListener('input', ()=>{ listenAudio.currentTime = (seek.value/100) * (listenAudio.duration||0); });
+
+/* ===== Conditionals matching (tiny DnD) ===== */
+(() => {
+  let dragging = null;
+  document.querySelectorAll('#cond .ctoken').forEach(t=>{
+    t.addEventListener('dragstart',e=>{ dragging = t; });
+    t.addEventListener('dragend',()=> dragging=null);
+  });
+  document.querySelectorAll('#cond .cslot').forEach(s=>{
+    s.addEventListener('dragover',e=>e.preventDefault());
+    s.addEventListener('drop',e=>{
+      e.preventDefault();
+      if(!dragging) return;
+      // if slot already has a token, return it to bank
+      const exist = s.querySelector('.ctoken');
+      if(exist) document.getElementById('condBank').appendChild(exist);
+      s.appendChild(dragging);
+      s.classList.add('filled');
+      s.dataset.vk = dragging.dataset.k;
+      s.classList.remove('right','wrong');
+      updateProgress();
+    });
+  });
+  // Double click token -> return to bank
+  document.getElementById('cond').addEventListener('dblclick', e=>{
+    const t = e.target.closest('.ctoken'); if(!t) return;
+    document.getElementById('condBank').appendChild(t);
+    const p = t.parentElement.closest('.cslot');
+    if(p){ p.classList.remove('filled','right','wrong'); p.dataset.vk=''; }
+    updateProgress();
+  });
+})();
+
+/* ===== Progress counter (all sections) ===== */
+function updateProgress(){
+  const answered =
+    document.querySelectorAll(
+      '.slot.filled,'+                              // describing + phrasals
+      '#nature input[type="radio"]:checked,'+      // nature MCQ
+      '#arts input[type="radio"]:checked,'+        // arts MCQ
+      '#listening .gap[value],' +                  // listening gaps
+      '#listening input[type="radio"]:checked,' +  // listening MCQ
+      '#pspc input[type="radio"]:checked,' +       // PS vs PC
+      '#pp input[type="radio"]:checked,' +         // Present Perfect vs Past Simple
+      '#ability input[type="radio"]:checked,' +    // Ability
+      '#passive input[type="radio"]:checked,' +    // Passive
+      '#usedto .gap[value],' +                     // used to
+      '#quant .gap[value],' +                      // quantifiers/should
+      '#cond .cslot.filled'                        // conditionals matching
+    ).length;
+
+  const total =
+    document.querySelectorAll('.slot').length +    // describing + phrasals (16+8)
+    8 + 8 +                                        // nature + arts MCQ
+    8 + 6 +                                        // listening: gaps + MCQ
+    8 + 8 + 8 + 8 +                                // pspc + pp + ability + passive
+    8 + 8 +                                        // usedto gaps + quant gaps
+    8;                                             // conditionals matching (8 pairs)
+
+  const pct = Math.min(100, Math.round((answered/total)*100));
   document.getElementById('fill').style.width = pct+'%';
   const bar = document.querySelector('.bar').getBoundingClientRect();
   const heart = document.getElementById('heart');
@@ -156,21 +952,111 @@ function updateProgress(answered=0,total=0){
   document.getElementById('progressText').textContent = answered + ' / ' + total;
   document.getElementById('live').textContent = pct<100 ? 'Keep going — the heart is moving…' : 'Full progress — time to check!';
 }
-updateProgress(0,0);
+document.addEventListener('input', updateProgress);
+document.addEventListener('change', updateProgress);
+updateProgress();
 
-/* Простая система тултипов (переиспользуем окно #tooltip) */
-function showTip(html, anchor){
-  const tip = document.getElementById('tooltip');
-  tip.innerHTML = html;
-  const r = anchor.getBoundingClientRect();
-  tip.style.display = 'block';
-  tip.style.left = (r.left + window.scrollX) + 'px';
-  tip.style.top = (r.bottom + window.scrollY + 6) + 'px';
+/* ===== Scoring helpers ===== */
+function countRadioCheckedCorrect(scopeSelector){
+  let s=0; document.querySelectorAll(scopeSelector+' input[type="radio"]:checked').forEach(i=>{ if(i.dataset.a) s++; });
+  return s;
 }
-document.addEventListener('click', (e)=>{
-  const t = e.target;
-  if(t.matches('[data-tip]')){ showTip(t.dataset.tip, t); }
-  else if(!t.closest('#tooltip')){ document.getElementById('tooltip').style.display='none'; }
+function scoreGaps(scopeSelector){
+  const gaps = [...document.querySelectorAll(scopeSelector+' .gap')];
+  let ok=0; gaps.forEach(g=>{
+    const v=(g.value||'').trim().toLowerCase();
+    const a=(g.dataset.a||'').trim().toLowerCase();
+    if(v===a){ ok++; g.classList.add('right'); g.classList.remove('wrong'); }
+    else if(v){ g.classList.add('wrong'); g.classList.remove('right'); }
+    else { g.classList.remove('right','wrong'); }
+  });
+  return {ok, total:gaps.length};
+}
+function scoreConditionals(){
+  const slots = [...document.querySelectorAll('#cond .cslot')];
+  let ok=0; slots.forEach(s=>{
+    const good = (s.dataset.vk||'') === (s.dataset.a||'');
+    s.classList.toggle('right', good && s.classList.contains('filled'));
+    s.classList.toggle('wrong', !good && s.classList.contains('filled'));
+    if(good) ok++;
+  });
+  return {ok,total:slots.length};
+}
+
+/* ===== Total scoring + ending ===== */
+function totalAutoScore(){
+  let total=0, max=0, review=[];
+
+  // Describing People: 16 slots -> 8 pts
+  {
+    const slots = [...document.querySelectorAll('#describing .slot')];
+    const ok = slots.filter(s=> (s.dataset.v||'').toLowerCase()===s.dataset.a.toLowerCase()).length;
+    total += ok*0.5; max += 16*0.5;
+    if(ok<16) review.push('Describing people');
+    slots.forEach(s=>{
+      const filled = !!s.dataset.v;
+      s.classList.toggle('right', filled && (s.dataset.v||'').toLowerCase()===s.dataset.a.toLowerCase());
+      s.classList.toggle('wrong', filled && (s.dataset.v||'').toLowerCase()!==s.dataset.a.toLowerCase());
+    });
+  }
+
+  // Phrasal verbs: 8 -> 8
+  {
+    const slots = [...document.querySelectorAll('#phrasal .slot')];
+    const ok = slots.filter(s=> (s.dataset.v||'').toLowerCase()===s.dataset.a.toLowerCase()).length;
+    total += ok; max += 8;
+    if(ok<8) review.push('Phrasal verbs');
+    slots.forEach(s=>{
+      const filled = !!s.dataset.v;
+      s.classList.toggle('right', filled && (s.dataset.v||'').toLowerCase()===s.dataset.a.toLowerCase());
+      s.classList.toggle('wrong', filled && (s.dataset.v||'').toLowerCase()!==s.dataset.a.toLowerCase());
+    });
+  }
+
+  // Nature MCQ: 8 -> 8
+  { const ok = countRadioCheckedCorrect('#nature'); total += ok; max += 8; if(ok<8) review.push('Planet Earth & Nature'); }
+  // Arts MCQ: 8 -> 8
+  { const ok = countRadioCheckedCorrect('#arts'); total += ok; max += 8; if(ok<8) review.push('Visual & Performing Arts'); }
+
+  // Listening gaps (8 -> 8)
+  { const {ok} = scoreGaps('#listening'); total += ok; max += 8; if(ok<8) review.push('Listening: gap-fill'); }
+  // Listening MCQ (6 -> 8 normalized)
+  { const ok = countRadioCheckedCorrect('#listenMcq'); total += (ok/6)*8; max += 8; if(ok<6) review.push('Listening: comprehension'); }
+
+  // PS vs PC (8 -> 8)
+  { const ok = countRadioCheckedCorrect('#pspc'); total += ok; max += 8; if(ok<8) review.push('Past Simple vs Past Continuous'); }
+  // used to (8 gaps -> 8)
+  { const {ok} = scoreGaps('#usedto'); total += ok; max += 8; if(ok<8) review.push('used to'); }
+  // Present Perfect vs Past Simple (8 -> 8)
+  { const ok = countRadioCheckedCorrect('#pp'); total += ok; max += 8; if(ok<8) review.push('Present Perfect vs Past Simple'); }
+  // Ability (8 -> 8)
+  { const ok = countRadioCheckedCorrect('#ability'); total += ok; max += 8; if(ok<8) review.push('Ability (can/could/will be able to)'); }
+  // Quantifiers + advice (8 -> 8)
+  { const {ok} = scoreGaps('#quant'); total += ok; max += 8; if(ok<8) review.push('Quantifiers & should/ought to'); }
+  // Conditionals matching (8 -> 8)
+  { const {ok} = scoreConditionals(); total += ok; max += 8; if(ok<8) review.push('Conditionals (1st & 2nd)'); }
+  // Passive voice (8 -> 8)
+  { const ok = countRadioCheckedCorrect('#passive'); total += ok; max += 8; if(ok<8) review.push('Passive voice'); }
+
+  return {total,max,review};
+}
+
+document.getElementById('checkBtn').addEventListener('click', ()=>{
+  const {total,max,review} = totalAutoScore();
+  const percent = Math.round((total/max)*100);
+  const box = document.getElementById('resultBox');
+  let ending='FRIENDS', img='images/friendship-ending.png', text='They decide to stay friends and hang out after class.';
+  if(percent>=85){ ending='HAPPY'; img='images/happy-end.png'; text='Pastel sky, warm smiles: Mia and Alex walk together. Soulmates mood.'; }
+  else if(percent<60){ ending='REJECTED'; img='images/rejected-ending.png'; text='Oh no! Mia says “not now”. Alex has dramatic anime tears — but don’t give up!'; }
+
+  box.innerHTML = `
+    <h3>✨ Love Points: ${total.toFixed(1)} / ${max.toFixed(1)} → ${percent}%</h3>
+    <p><b>Ending:</b> ${ending}</p>
+    <img src="${img}" alt="${ending} ending illustration">
+    <p>${text}</p>
+    <p>📸 <b>Send a screenshot of this text to your teacher.</b></p>
+    ${review.length?('<p>📚 <b>To review:</b> '+review.join(', ')+'</p>'):('<p>📚 Great! You mastered all topics today.</p>')}
+  `;
 });
 </script>
 </body>
